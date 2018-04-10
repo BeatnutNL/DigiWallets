@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>DGB wallet generator</title>
+		<link href="css/bootstrap.css" rel="stylesheet">
+		
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.qr.js"></script>
+		<script type="text/javascript" src="js/digibyte.js"></script>
+		
+		<script>
+			var digibyte = require('digibyte');
+		</script>
+		<style>
+			body{
+				background-color:#333;
+			
+			}
+			#printarea{
+				
+				background-color:#FFF;
+				
+				width: 210mm;
+				padding:10px;
+				margin:0 auto;
+				
+			}
+			#cp{
+				width:500px;
+				margin:0 auto 100px;
+				border-bottom:1px #333 solid;
+				padding:20px;
+				text-align:center;
+			}
+			#cp input,#cp button{
+			
+				margin: 10px;
+			}
+			
+			
+			.wallet{
+				margin:5px 0;
+				height:57mm;
+				background-color:rgb(0,35,82);
+			
+			}
+			
+				.qr{
+					display:inline-block;
+					background-color:#FFF;
+					border:solid 1px #333;
+					padding:4px;
+				}
+					.qr canvas{
+						vertical-align:top;
+						
+					
+					}
+					
+				
+			
+			
+			
+			
+			
+			
+			
+			@page {
+			  size: A4;
+			  margin: 0;
+			}
+			@media print {
+			
+				#cp{
+					display:none;
+				}
+			  html, body {
+				width: 210mm;
+				height: 297mm;
+			  }
+			  /* ... the rest of the rules ... */
+			}
+		
+		</style>
+	</head>
+	
+	
+	<body>
+	
+		<div id="printarea">
+		
+			<div id="cp">
+				<input type="number" class="form-control" id="nwallets" placeholder="Number of wallets"/>
+				<input type="number" class="form-control" id="amountperwallet" placeholder="Value per wallet in DGB"/>
+				<button class="btn btn-primary" id="generate">Generate Wallets</button>
+			
+			</div>
+			
+			<div id="walletwrapper">
+			
+				
+				
+			
+				
+			
+			</div>
+		
+		
+		</div>
+	<script>
+	
+		$('#generate').on('click',function(){
+			
+			generateWallets();
+		
+		});
+		
+		var pvks = [];
+		function generateWallets() {
+		
+			var amount = parseInt($('#nwallets').val());
+			var value = parseFloat($('#amountperwallet').val());
+			$('#walletwrapper').html('');
+			pvks = [];
+			for(var i = 0; i< amount ; i++) {
+				let pvk = new digibyte.PrivateKey();
+				pvks.push(pvk);
+				$('#walletwrapper').append(generateWallet(pvk));
+			
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+		}
+		
+		
+		
+		function generateWallet(pvk) {
+		
+			var publicAddress = pvk.publicKey.toAddress().toString();
+			var WIF = pvk.toWIF().toString();
+			var element = $('<div class="wallet"></div>');
+			var inner = $('<div class="inner"></div>');
+			var pbkq = $('<div class="publicQR"></div>');
+			var pvkq = $('<div class="privateQR"></div>');
+			
+			pvkq.append(generateQr(WIF));
+			pvkq.append(generateQr('digibyte:'+publicAddress));
+			inner.append(pbkq,pvkq);
+			element.append(inner)
+			return element;
+		
+		}
+	
+	
+	
+		function generateQr(text) {
+			var qs = {};
+		
+			qs.text = text;
+			qs.size = 150;
+			return $('<div class="qr"></div>').qrcode(qs);
+			
+		
+		
+		}
+	
+	
+	</script>
+
+	</body>
+</html>
