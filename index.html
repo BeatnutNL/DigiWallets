@@ -16,12 +16,12 @@
 			body{
 				background-color:#333;
 			
- 				 -webkit-print-color-adjust: exact;
+ 				 -webkit-print-color-adjust: exact !important;
 
 			}
 			#printarea{
 				
-				background-color:#FFF;
+				background-color:#FFF !important;
 				
 				width: 210mm;
 				padding:6.35mm;
@@ -30,9 +30,11 @@
 			}
 			#cp{
 				width:500px;
-				margin:0 auto 100px;
+				margin:50px auto 100px;
 				border-bottom:1px #333 solid;
 				padding:20px;
+				background-color:#fff;
+				
 				text-align:center;
 			}
 			#cp input,#cp button{
@@ -90,16 +92,14 @@
 	
 	
 	<body>
-	
+		<div id="cp">
+			<input type="number" class="form-control" id="nwallets" placeholder="Number of wallets"/>
+			<input type="number" class="form-control" id="amountperwallet" placeholder="Value per wallet in DGB"/>
+			<button class="btn btn-primary" id="generate">Generate Wallets</button>
+
+		</div>
 		<div id="printarea">
-		
-			<div id="cp">
-				<input type="number" class="form-control" id="nwallets" placeholder="Number of wallets"/>
-				<input type="number" class="form-control" id="amountperwallet" placeholder="Value per wallet in DGB"/>
-				<button class="btn btn-primary" id="generate">Generate Wallets</button>
-			
-			</div>
-			
+
 			<div id="walletwrapper">
 			
 				
@@ -108,8 +108,6 @@
 				
 			
 			</div>
-		
-		
 		</div>
 	<script>
 	
